@@ -37,6 +37,12 @@ public class UsuarioRepoJpaImpl implements UsuarioDataSource {
     }
 
     @Override
+    public Optional<UsuarioDto> findUserById(Long id) {
+        Optional<UsuarioJpa> optionalUsuarioJpa = Optional.ofNullable(entityManager.find(UsuarioJpa.class, id));
+        return optionalUsuarioJpa.map(usuarioJpaDtoMapper::getDto);
+    }
+
+    @Override
     public Long countByNome(String nome) {
         Query query = entityManager.createQuery("SELECT count(*) FROM UsuarioJpa usuario WHERE usuario.nome = :nome");
         query.setParameter("nome", nome);
@@ -56,5 +62,13 @@ public class UsuarioRepoJpaImpl implements UsuarioDataSource {
         UsuarioJpa usuarioJpa = usuarioJpaDtoMapper.getJpa(usuarioDto);
         usuarioJpa = entityManager.merge(usuarioJpa);
         return usuarioJpaDtoMapper.getDto(usuarioJpa);
+    }
+
+    @Override
+    @Transactional
+    public void excluirUsuario(UsuarioDto usuarioDto) {
+        Query query = entityManager.createQuery("DELETE FROM UsuarioJpa usuario WHERE usuario.id = :id");
+        query.setParameter("id", usuarioDto.id());
+        query.executeUpdate();
     }
 }

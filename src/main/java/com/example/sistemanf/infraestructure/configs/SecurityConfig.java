@@ -45,7 +45,7 @@ public class SecurityConfig {
             "/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
             "/api/test/**", "/api/v1/usuario/gerar-token" };
 
-    private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario" };
+    private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario", "/api/v1/usuario/**" };
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;

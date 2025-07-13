@@ -6,6 +6,7 @@ import com.example.sistemanf.entities.Usuario;
 import com.example.sistemanf.exceptions.UsuarioNotFoundException;
 import com.example.sistemanf.mappers.UsuarioMapper;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class UsuarioGateway {
@@ -25,6 +26,18 @@ public class UsuarioGateway {
         return UsuarioMapper.getEntidade(usuarioDtoOptional.get(), false);
     }
 
+    public Usuario findUserById(Long id) {
+        if (Objects.isNull(id))
+            throw new UsuarioNotFoundException();
+
+        Optional<UsuarioDto> optionalUsuarioDto = usuarioDataSource.findUserById(id);
+
+        if (optionalUsuarioDto.isEmpty())
+            throw new UsuarioNotFoundException();
+
+        return UsuarioMapper.getEntidade(optionalUsuarioDto.get(), false);
+    }
+
     public Long countByNome(String nome) {
         return usuarioDataSource.countByNome(nome);
     }
@@ -36,5 +49,9 @@ public class UsuarioGateway {
     public Usuario criarUsuario(UsuarioDto criarUsuarioDto) {
         UsuarioDto usuarioDto = usuarioDataSource.criarUsuario(criarUsuarioDto);
         return UsuarioMapper.getEntidade(usuarioDto, false);
+    }
+
+    public void excluir(UsuarioDto usuarioDto) {
+        usuarioDataSource.excluirUsuario(usuarioDto);
     }
 }

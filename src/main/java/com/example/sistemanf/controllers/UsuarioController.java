@@ -12,6 +12,7 @@ import com.example.sistemanf.gateways.UsuarioGateway;
 import com.example.sistemanf.mappers.TokenMapper;
 import com.example.sistemanf.mappers.UsuarioMapper;
 import com.example.sistemanf.usecases.CriarUsuarioFuncionarioUseCase;
+import com.example.sistemanf.usecases.ExcluirUsuarioUseCase;
 import com.example.sistemanf.usecases.GerarTokenUseCase;
 
 public class UsuarioController {
@@ -35,5 +36,11 @@ public class UsuarioController {
         GerarTokenUseCase useCase = new GerarTokenUseCase(tokenGateway);
         Token token = useCase.execute(tipo, email);
         return TokenMapper.getDto(token);
+    }
+
+    public void excluirUsuario(Long id, String requesterEmail) {
+        UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
+        ExcluirUsuarioUseCase useCase = new ExcluirUsuarioUseCase(usuarioGateway);
+        useCase.execute(id, requesterEmail);
     }
 }

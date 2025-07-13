@@ -7,6 +7,41 @@
 	},
 	"item": [
 		{
+			"name": "Usuário gerar token de acesso",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "email_gerente@empresa.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "SenhaUsuario1",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{APP URL}}/api/v1/usuario/gerar-token",
+					"host": [
+						"{{APP URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"gerar-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Usuário gerente criar um usuário funcionário",
 			"request": {
 				"auth": {
@@ -50,7 +85,7 @@
 			"response": []
 		},
 		{
-			"name": "Usuário gerar token de acesso",
+			"name": "Usuário gerente excluir um usuário funcionário",
 			"request": {
 				"auth": {
 					"type": "basic",
@@ -67,10 +102,10 @@
 						}
 					]
 				},
-				"method": "GET",
+				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{APP URL}}/api/v1/usuario/gerar-token",
+					"raw": "{{APP URL}}/api/v1/usuario/2",
 					"host": [
 						"{{APP URL}}"
 					],
@@ -78,7 +113,7 @@
 						"api",
 						"v1",
 						"usuario",
-						"gerar-token"
+						"2"
 					]
 				}
 			},

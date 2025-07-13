@@ -108,6 +108,38 @@ public class UsuarioApiV1 {
                 .body(usuario);
     }
 
+    @Operation(summary = "Exclui um usuário",
+            description = "Requer autenticação e tipo de usuário 'GERENTE'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "Usuário excluído com sucesso"),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'GERENTE'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Usuário a ser excluido não encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@AuthenticationPrincipal UserDetails userDetails,
+                                       @RequestHeader(name = "Authorization", required = false) String token,
+                                       @PathVariable("id") Long id) {
+        RequesterDto requester = getRequester(userDetails, token);
+        log.info("Usuário gerente {} excluindo usuário: {}", requester.email(), id);
+        usuarioController.excluirUsuario(id, requester.email());
+        log.info("Usuário gerente {} excluiu usuário: {}", requester.email(), id);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT).build();
+    }
+
     private RequesterDto getRequester(UserDetails userDetails, String token) {
         return (!Objects.isNull(userDetails)) ?
                 requesterController.getRequester(userDetails.getAuthorities().stream().findFirst().isPresent() ?
