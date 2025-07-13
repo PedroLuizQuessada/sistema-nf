@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "834f5adc-77c1-4d3a-b01a-cb2a87f95c46",
+		"name": "sistema-nf",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30167569"
+	},
+	"item": [
+		{
+			"name": "Usuário gerente criar um usuário funcionário",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "email_gerente@empresa.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "SenhaUsuario1",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"empresa\": 1,\r\n    \"nome\": \"novo user 2\",\r\n    \"email\": \"novoemail2@gmail.com\",\r\n    \"senha\": \"abc123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{APP URL}}/api/v1/usuario",
+					"host": [
+						"{{APP URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Usuário gerar token de acesso",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "email_gerente@empresa.com",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "SenhaUsuario1",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{APP URL}}/api/v1/usuario/gerar-token",
+					"host": [
+						"{{APP URL}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"usuario",
+						"gerar-token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APP URL",
+			"value": "http://localhost:8080/sistema-nf",
+			"type": "string"
+		}
+	]
+}
