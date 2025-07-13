@@ -1,27 +1,23 @@
 package com.example.sistemanf.usecases;
 
 import com.example.sistemanf.dtos.requests.CriarUsuarioFuncionarioRequest;
-import com.example.sistemanf.entities.Empresa;
 import com.example.sistemanf.entities.Usuario;
 import com.example.sistemanf.enums.TipoUsuarioEnum;
 import com.example.sistemanf.exceptions.ValorInvalidoException;
-import com.example.sistemanf.gateways.EmpresaGateway;
 import com.example.sistemanf.gateways.UsuarioGateway;
 import com.example.sistemanf.mappers.UsuarioMapper;
 
 public class CriarUsuarioFuncionarioUseCase {
 
     private final UsuarioGateway usuarioGateway;
-    private final EmpresaGateway empresaGateway;
 
-    public CriarUsuarioFuncionarioUseCase(UsuarioGateway usuarioGateway, EmpresaGateway empresaGateway) {
+    public CriarUsuarioFuncionarioUseCase(UsuarioGateway usuarioGateway) {
         this.usuarioGateway = usuarioGateway;
-        this.empresaGateway = empresaGateway;
     }
 
-    public Usuario execute(CriarUsuarioFuncionarioRequest request) {
-        Empresa empresa = empresaGateway.findEmpresaById(request.empresa());
-        Usuario usuario = UsuarioMapper.getEntidade(request, empresa, TipoUsuarioEnum.FUNCIONARIO);
+    public Usuario execute(CriarUsuarioFuncionarioRequest request, String requesterEmail) {
+        Usuario requester = usuarioGateway.findUserByEmail(requesterEmail);
+        Usuario usuario = UsuarioMapper.getEntidade(request, requester.getEmpresa(), TipoUsuarioEnum.FUNCIONARIO);
         checkNomeDisponivel(usuario.getNome());
         checkEmailDisponivel(usuario.getEmail());
         return usuarioGateway.criarUsuario(UsuarioMapper.getDto(usuario));

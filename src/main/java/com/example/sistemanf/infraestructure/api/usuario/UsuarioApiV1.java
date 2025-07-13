@@ -2,7 +2,6 @@ package com.example.sistemanf.infraestructure.api.usuario;
 
 import com.example.sistemanf.controllers.RequesterController;
 import com.example.sistemanf.controllers.UsuarioController;
-import com.example.sistemanf.datasources.EmpresaDataSource;
 import com.example.sistemanf.datasources.RequesterDataSource;
 import com.example.sistemanf.datasources.TokenDataSource;
 import com.example.sistemanf.datasources.UsuarioDataSource;
@@ -38,9 +37,8 @@ public class UsuarioApiV1 {
     private final UsuarioController usuarioController;
     private final RequesterController requesterController;
 
-    public UsuarioApiV1(UsuarioDataSource usuarioDataSource, EmpresaDataSource empresaDataSource,
-                        RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
-        this.usuarioController = new UsuarioController(usuarioDataSource, empresaDataSource, tokenDataSource);
+    public UsuarioApiV1(UsuarioDataSource usuarioDataSource, RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
+        this.usuarioController = new UsuarioController(usuarioDataSource, tokenDataSource);
         this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
     }
 
@@ -102,7 +100,7 @@ public class UsuarioApiV1 {
                                                    @RequestBody @Valid CriarUsuarioFuncionarioRequest request) {
         RequesterDto requester = getRequester(userDetails, token);
         log.info("Usuário gerente {} criando usuário funcionário: {}", requester.email(), request.nome());
-        UsuarioDto usuario = usuarioController.criarUsuarioFuncionario(request);
+        UsuarioDto usuario = usuarioController.criarUsuarioFuncionario(request, requester.email());
         log.info("Usuário gerente {} criou usuário funcionário: {}", requester.email(), usuario.nome());
 
         return ResponseEntity
