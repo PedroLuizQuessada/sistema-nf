@@ -7,6 +7,7 @@ import com.example.sistemanf.datasources.RequesterDataSource;
 import com.example.sistemanf.datasources.TokenDataSource;
 import com.example.sistemanf.datasources.UsuarioDataSource;
 import com.example.sistemanf.dtos.RequesterDto;
+import com.example.sistemanf.dtos.TokenDto;
 import com.example.sistemanf.dtos.UsuarioDto;
 import com.example.sistemanf.dtos.requests.CriarUsuarioFuncionarioRequest;
 import com.example.sistemanf.enums.TipoUsuarioEnum;
@@ -39,8 +40,39 @@ public class UsuarioApiV1 {
 
     public UsuarioApiV1(UsuarioDataSource usuarioDataSource, EmpresaDataSource empresaDataSource,
                         RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
-        this.usuarioController = new UsuarioController(usuarioDataSource, empresaDataSource);
+        this.usuarioController = new UsuarioController(usuarioDataSource, empresaDataSource, tokenDataSource);
         this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
+    }
+
+    @Operation(summary = "Gera token de acesso",
+            description = "Requer autenticação",
+            security = @SecurityRequirement(name = "basicAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Token gerado com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = TokenDto.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+
+            @ApiResponse(responseCode = "500",
+                    description = "Falha ao gerar token",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @GetMapping("/gerar-token")
+    public ResponseEntity<TokenDto> gerarToken(@AuthenticationPrincipal UserDetails userDetails,
+                                                       @RequestHeader(name = "Authorization", required = false) String token) {
+        RequesterDto requester = getRequester(userDetails, token);
+        log.info("Usuário {} gerando token de acesso", requester.email());
+        TokenDto tokenResponse = usuarioController.gerarToken(requester.tipo(), requester.email());
+        log.info("Usuário {} gerou token de acesso", tokenResponse.email());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(tokenResponse);
     }
 
     @Operation(summary = "Cria um usuário funcionário",

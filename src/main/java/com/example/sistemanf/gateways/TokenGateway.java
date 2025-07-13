@@ -17,8 +17,8 @@ public class TokenGateway {
         this.tokenDataSource = tokenDataSource;
     }
 
-    public Token generateToken(TipoUsuarioEnum tipo, String email) {
-        TokenDto tokenDto = tokenDataSource.generateToken(tipo, email);
+    public Token gerarToken(TipoUsuarioEnum tipo, String email) {
+        TokenDto tokenDto = tokenDataSource.gerarToken(tipo, email);
         return TokenMapper.getEntidade(tokenDto);
     }
 

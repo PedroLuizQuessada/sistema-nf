@@ -5,6 +5,6 @@ import com.example.sistemanf.dtos.TokenDto;
 import com.example.sistemanf.enums.TipoUsuarioEnum;
 
 public interface TokenDataSource {
-    TokenDto generateToken(TipoUsuarioEnum tipo, String email);
+    TokenDto gerarToken(TipoUsuarioEnum tipo, String email);
     RequesterDto getRequester(String token);
 }

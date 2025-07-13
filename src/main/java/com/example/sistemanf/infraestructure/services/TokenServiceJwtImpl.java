@@ -27,14 +27,14 @@ public class TokenServiceJwtImpl implements TokenDataSource {
     private JwtDecoder jwtDecoder;
 
     @Override
-    public TokenDto generateToken(TipoUsuarioEnum tipo, String email) {
+    public TokenDto gerarToken(TipoUsuarioEnum tipo, String email) {
         Instant now = Instant.now();
 
         var claims = JwtClaimsSet.builder()
                 .issuer(applicationName)
                 .issuedAt(now)
                 .expiresAt(now.plusSeconds(expirationTime))
-                .claim("authorities", tipo) //TODO testar
+                .claim("authorities", tipo)
                 .subject(email)
                 .build();
 
@@ -45,7 +45,7 @@ public class TokenServiceJwtImpl implements TokenDataSource {
     @Override
     public RequesterDto getRequester(String token) {
         Jwt jwt = decodeToken(token);
-        return new RequesterDto(jwt.getClaim("authorities"), jwt.getSubject());
+        return new RequesterDto(TipoUsuarioEnum.valueOf(jwt.getClaim("authorities")), jwt.getSubject());
     }
 
     private Jwt decodeToken(String token) {

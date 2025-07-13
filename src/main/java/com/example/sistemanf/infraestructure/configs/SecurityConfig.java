@@ -43,7 +43,7 @@ public class SecurityConfig {
     private static final String[] WHITE_LIST_URL = { "/api/v1/auth/**", "/v2/api-docs", "/v3/api-docs",
             "/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
             "/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
-            "/api/test/**" };
+            "/api/test/**", "/api/v1/usuario/gerar-token" };
 
     private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario" };
 
@@ -62,7 +62,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()
-                                .requestMatchers(GERENTE_LIST_URL).hasAuthority(TipoUsuarioEnum.GERENTE.name()) //TODO testar
+                                .requestMatchers(GERENTE_LIST_URL).hasAuthority(TipoUsuarioEnum.GERENTE.name())
                                 .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
