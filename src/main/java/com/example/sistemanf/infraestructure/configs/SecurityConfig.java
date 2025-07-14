@@ -47,6 +47,8 @@ public class SecurityConfig {
 
     private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario", "/api/v1/usuario/**" };
 
+    private static final String[] FUNCIONARIO_LIST_URL = { "/api/v1/solicitacao/upload-nf" };
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
@@ -63,6 +65,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(GERENTE_LIST_URL).hasAuthority(TipoUsuarioEnum.GERENTE.name())
+                                .requestMatchers(FUNCIONARIO_LIST_URL).hasAuthority(TipoUsuarioEnum.FUNCIONARIO.name())
                                 .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)

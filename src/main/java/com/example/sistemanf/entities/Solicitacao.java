@@ -2,11 +2,14 @@ package com.example.sistemanf.entities;
 
 import com.example.sistemanf.enums.StatusSolicitacaoEnum;
 import com.example.sistemanf.exceptions.ValorInvalidoException;
+import com.example.sistemanf.utils.CnpjUtil;
+import lombok.Getter;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 
+@Getter
 public class Solicitacao {
 
     private final Long id;
@@ -25,6 +28,7 @@ public class Solicitacao {
         validarDataEmissao(dataEmissao);
         validarValor(valor);
         validarFuncionario(funcionario);
+        CnpjUtil.validarCnpj(cnpjServico);
         validarPathArquivo(pathArquivo);
 
         this.id = id;

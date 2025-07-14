@@ -1,6 +1,7 @@
 package com.example.sistemanf.entities;
 
 import com.example.sistemanf.exceptions.ValorInvalidoException;
+import com.example.sistemanf.utils.CnpjUtil;
 import lombok.Getter;
 
 import java.time.Instant;
@@ -17,7 +18,7 @@ public class Empresa {
 
     public Empresa(Long id, String nome, String cnpj, Date dataInclusao) {
         validarNome(nome);
-        validarCnpj(cnpj);
+        CnpjUtil.validarCnpj(cnpj);
 
         this.id = id;
         this.nome = nome;
@@ -29,13 +30,5 @@ public class Empresa {
     private void validarNome(String nome) {
         if (Objects.isNull(nome) || nome.isEmpty())
             throw new ValorInvalidoException("empresa deve possuir um nome.");
-    }
-
-    private void validarCnpj(String cnpj) {
-        if (Objects.isNull(cnpj) || cnpj.isEmpty())
-            throw new ValorInvalidoException("empresa deve possuir um CNPJ.");
-
-        if (cnpj.length() != 14)
-            throw new ValorInvalidoException("CNPJ inválido.");
     }
 }

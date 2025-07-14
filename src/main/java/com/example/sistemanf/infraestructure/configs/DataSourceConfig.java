@@ -1,11 +1,10 @@
 package com.example.sistemanf.infraestructure.configs;
 
-import com.example.sistemanf.datasources.EmpresaDataSource;
-import com.example.sistemanf.datasources.RequesterDataSource;
-import com.example.sistemanf.datasources.TokenDataSource;
-import com.example.sistemanf.datasources.UsuarioDataSource;
+import com.example.sistemanf.datasources.*;
 import com.example.sistemanf.infraestructure.persistence.jpa.repos.EmpresaRepoJpaImpl;
+import com.example.sistemanf.infraestructure.persistence.jpa.repos.SolicitacaoRepoJpaImpl;
 import com.example.sistemanf.infraestructure.persistence.jpa.repos.UsuarioRepoJpaImpl;
+import com.example.sistemanf.infraestructure.services.NotaFiscalServiceTesseractImpl;
 import com.example.sistemanf.infraestructure.services.RequesterServiceImpl;
 import com.example.sistemanf.infraestructure.services.TokenServiceJwtImpl;
 import org.springframework.context.annotation.Bean;
@@ -32,5 +31,15 @@ public class DataSourceConfig {
     @Bean
     public RequesterDataSource requesterDataSource() {
         return new RequesterServiceImpl();
+    }
+
+    @Bean
+    public SolicitacaoDataSource solicitacaoDataSource() {
+        return new SolicitacaoRepoJpaImpl();
+    }
+
+    @Bean
+    public NotaFiscalDataSource notaFiscalDataSource() {
+        return new NotaFiscalServiceTesseractImpl();
     }
 }
