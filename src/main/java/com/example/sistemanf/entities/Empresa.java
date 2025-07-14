@@ -11,10 +11,10 @@ import java.util.Objects;
 @Getter
 public class Empresa {
 
-    private final Long id; //TODO ID ao invés de UUID
+    private final Long id; //TODO ID ao invés de UUID em todas as entidades
     private final String nome;
     private final String cnpj;
-    private final Date dataInclusao;
+    private final Date dataInclusao; //TODO utilização do created_at em todas as entidades
 
     public Empresa(Long id, String nome, String cnpj, Date dataInclusao) {
         validarNome(nome);

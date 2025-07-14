@@ -13,10 +13,6 @@ public class SolicitacaoGateway {
         this.solicitacaoDataSource = solicitacaoDataSource;
     }
 
-    public Long selectMaxId() {
-        return solicitacaoDataSource.selectMaxId();
-    }
-
     public Solicitacao criarSolicitacao(SolicitacaoDto criarSolicitacaoDto) {
         SolicitacaoDto solicitacaoDto = solicitacaoDataSource.criarSolicitacao(criarSolicitacaoDto);
         return SolicitacaoMapper.getEntidade(solicitacaoDto);

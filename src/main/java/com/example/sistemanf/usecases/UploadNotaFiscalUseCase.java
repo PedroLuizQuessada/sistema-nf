@@ -8,6 +8,7 @@ import com.example.sistemanf.gateways.SolicitacaoGateway;
 import com.example.sistemanf.gateways.UsuarioGateway;
 import com.example.sistemanf.mappers.SolicitacaoMapper;
 import com.example.sistemanf.utils.FileUtil;
+import com.example.sistemanf.utils.TimeUtil;
 
 import java.io.File;
 
@@ -26,8 +27,8 @@ public class UploadNotaFiscalUseCase {
 
     public Solicitacao execute(UploadNotaFiscalRequest request, String emailRequester) {
         Usuario usuario = usuarioGateway.findUserByEmail(emailRequester);
-        long solicitacaoId = solicitacaoGateway.selectMaxId() + 1;
-        File file = FileUtil.converterBase64ToFile(request.arquivoBase64(), UPLOAD_FILE_PATH + "NF_" + solicitacaoId + ".png");
+        String nomeArquivo = emailRequester + TimeUtil.getNowFormatado() + request.extensaoArquivo();
+        File file = FileUtil.converterBase64ToFile(request.arquivoBase64(), UPLOAD_FILE_PATH + nomeArquivo);
         Double valor = notaFiscalGateway.getValorTotal(file);
         Solicitacao solicitacao = SolicitacaoMapper.getEntidade(request, valor, usuario, file.getAbsolutePath());
         return solicitacaoGateway.criarSolicitacao(SolicitacaoMapper.getDto(solicitacao));
