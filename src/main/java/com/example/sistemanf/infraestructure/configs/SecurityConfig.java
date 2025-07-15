@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -45,9 +46,11 @@ public class SecurityConfig {
             "/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
             "/api/test/**" };
 
-    private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario", "/api/v1/usuario/**", "/api/v1/solicitacao/atualizar-status/**" };
+    private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario", "/api/v1/solicitacao/atualizar-status/**" };
 
     private static final String[] FUNCIONARIO_LIST_URL = { "/api/v1/solicitacao/upload-nf", "/api/v1/solicitacao/cancelar/**" };
+
+    private static final String[] AUTHENTICATED_LIST_URL = { "/api/v1/usuario/gerar-token" };
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
@@ -65,7 +68,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                         auth.requestMatchers(WHITE_LIST_URL).permitAll()
                                 .requestMatchers(GERENTE_LIST_URL).hasAuthority(TipoUsuarioEnum.GERENTE.name())
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/usuario/**").hasAuthority(TipoUsuarioEnum.GERENTE.name())
                                 .requestMatchers(FUNCIONARIO_LIST_URL).hasAuthority(TipoUsuarioEnum.FUNCIONARIO.name())
+                                .requestMatchers(AUTHENTICATED_LIST_URL).authenticated()
                                 .anyRequest().authenticated())
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
