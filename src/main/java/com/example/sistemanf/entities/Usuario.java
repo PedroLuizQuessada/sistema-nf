@@ -20,20 +20,23 @@ public class Usuario {
     private final String email;
     private final String senha;
     private final Date dataCriacao;
+    private final Boolean ativo;
 
     public Usuario(Long id, Empresa empresa, String nome, TipoUsuarioEnum tipo, String email, String senha,
-                   Date dataCriacao, boolean criptografar) {
+                   Date dataCriacao, boolean criptografar, Boolean ativo) {
         validarEmpresa(empresa);
         validarNome(nome);
         validarTipo(tipo);
         validarEmail(email);
         validateSenha(senha);
+        validarAtivo(ativo);
 
         this.id = id;
         this.empresa = empresa;
         this.nome = nome;
         this.tipo = tipo;
         this.email = email;
+        this.ativo = ativo;
 
         this.dataCriacao = !Objects.isNull(dataCriacao) ? dataCriacao : new java.sql.Date(java.sql.Date.from(Instant.now()).getTime());
 
@@ -75,5 +78,10 @@ public class Usuario {
 
         if (senha.length() < 6)
             throw new ValorInvalidoException("a senha do usuário deve possuir ao menos 6 caracteres");
+    }
+
+    private void validarAtivo(Boolean ativo) {
+        if (Objects.isNull(ativo))
+            throw new ValorInvalidoException("usuário deve possuir um indicativo de atividade.");
     }
 }

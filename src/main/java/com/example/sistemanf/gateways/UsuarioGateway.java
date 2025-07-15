@@ -26,6 +26,15 @@ public class UsuarioGateway {
         return UsuarioMapper.getEntidade(usuarioDtoOptional.get(), false);
     }
 
+    public Usuario findUserAtivoByEmail(String email) {
+        Optional<UsuarioDto> usuarioDtoOptional = usuarioDataSource.findUserAtivoByEmail(email);
+
+        if (usuarioDtoOptional.isEmpty())
+            throw new UsuarioNotFoundException();
+
+        return UsuarioMapper.getEntidade(usuarioDtoOptional.get(), false);
+    }
+
     public Usuario findUserById(Long id) {
         if (Objects.isNull(id))
             throw new UsuarioNotFoundException();

@@ -37,6 +37,19 @@ public class UsuarioRepoJpaImpl implements UsuarioDataSource {
     }
 
     @Override
+    public Optional<UsuarioDto> findUserAtivoByEmail(String email) {
+        Query query = entityManager.createQuery("SELECT usuario FROM UsuarioJpa usuario WHERE usuario.email = :email AND usuario.ativo = TRUE");
+        query.setParameter("email", email);
+        try {
+            UsuarioJpa usuarioJpa = (UsuarioJpa) query.getSingleResult();
+            return Optional.ofNullable(usuarioJpaDtoMapper.getDto(usuarioJpa));
+        }
+        catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public Optional<UsuarioDto> findUserById(Long id) {
         Optional<UsuarioJpa> optionalUsuarioJpa = Optional.ofNullable(entityManager.find(UsuarioJpa.class, id));
         return optionalUsuarioJpa.map(usuarioJpaDtoMapper::getDto);
@@ -67,7 +80,7 @@ public class UsuarioRepoJpaImpl implements UsuarioDataSource {
     @Override
     @Transactional
     public void excluirUsuario(UsuarioDto usuarioDto) {
-        Query query = entityManager.createQuery("DELETE FROM UsuarioJpa usuario WHERE usuario.id = :id");
+        Query query = entityManager.createQuery("UPDATE UsuarioJpa usuario SET usuario.ativo = FALSE WHERE usuario.id = :id");
         query.setParameter("id", usuarioDto.id());
         query.executeUpdate();
     }

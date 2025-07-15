@@ -32,7 +32,7 @@ public class SolicitacaoJpa {
     @Column(nullable = false)
     private Double valor;
 
-    @ManyToOne //TODO testar excluir funcionário
+    @ManyToOne
     @JoinColumn(name = "funcionario", referencedColumnName = "id", nullable = false)
     private UsuarioJpa funcionario;
 

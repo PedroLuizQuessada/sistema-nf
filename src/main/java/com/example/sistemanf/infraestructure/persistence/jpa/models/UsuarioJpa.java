@@ -39,13 +39,17 @@ public class UsuarioJpa {
     @Column(nullable = false, name = "data_criacao")
     private Date dataCriacao;
 
-    public UsuarioJpa(Long id, EmpresaJpa empresa, String nome, TipoUsuarioEnum tipo, String email, String senha, Date dataCriacao) {
+    @Column(nullable = false)
+    private Boolean ativo;
+
+    public UsuarioJpa(Long id, EmpresaJpa empresa, String nome, TipoUsuarioEnum tipo, String email, String senha, Date dataCriacao, Boolean ativo) {
         validarEmpresa(empresa);
         validarNome(nome);
         validarTipo(tipo);
         validarEmail(email);
         validarSenha(senha);
         validarDataCriacao(dataCriacao);
+        validarAtivo(ativo);
 
         this.id = id;
         this.empresa = empresa;
@@ -54,6 +58,7 @@ public class UsuarioJpa {
         this.email = email;
         this.senha = senha;
         this.dataCriacao = dataCriacao;
+        this.ativo = ativo;
     }
 
     private void validarEmpresa(EmpresaJpa empresa) {
@@ -93,5 +98,10 @@ public class UsuarioJpa {
     private void validarDataCriacao(Date dataCriacao) {
         if (Objects.isNull(dataCriacao))
             throw new ValorInvalidoJpaException("o usuário deve possuir uma data de criação.");
+    }
+
+    private void validarAtivo(Boolean ativo) {
+        if (Objects.isNull(ativo))
+            throw new ValorInvalidoJpaException("o usuário deve possuir um indicativo de atividade.");
     }
 }

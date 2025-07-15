@@ -12,6 +12,6 @@ public class LoginUseCase {
     }
 
     public Usuario execute(String email) {
-        return usuarioGateway.findUserByEmail(email);
+        return usuarioGateway.findUserAtivoByEmail(email);
     }
 }

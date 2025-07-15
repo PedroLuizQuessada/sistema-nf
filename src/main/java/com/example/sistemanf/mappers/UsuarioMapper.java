@@ -14,19 +14,20 @@ public class UsuarioMapper {
     private UsuarioMapper(){}
 
     public static  Usuario getEntidade(CriarUsuarioFuncionarioRequest request, Empresa empresa, TipoUsuarioEnum tipo) {
-        return new Usuario(null, empresa, request.nome(), tipo, request.email(), request.senha(), null, true);
+        return new Usuario(null, empresa, request.nome(), tipo, request.email(), request.senha(), null, true, true);
     }
 
     public static Usuario getEntidade(UsuarioDto usuarioDto, boolean criptografar) {
         return new Usuario(usuarioDto.id(),
                 !Objects.isNull(usuarioDto.empresa()) ? EmpresaMapper.getEntidade(usuarioDto.empresa()) : null,
-                usuarioDto.nome(), usuarioDto.tipo(), usuarioDto.email(), usuarioDto.senha(), usuarioDto.dataCriacao(), criptografar);
+                usuarioDto.nome(), usuarioDto.tipo(), usuarioDto.email(), usuarioDto.senha(), usuarioDto.dataCriacao(),
+                criptografar, usuarioDto.ativo());
     }
 
     public static UsuarioDto getDto(Usuario usuario) {
         return new UsuarioDto(usuario.getId(),
                 !Objects.isNull(usuario.getEmpresa()) ? EmpresaMapper.getDto(usuario.getEmpresa()) : null,
-                usuario.getNome(), usuario.getTipo(), usuario.getEmail(), usuario.getSenha(), usuario.getDataCriacao());
+                usuario.getNome(), usuario.getTipo(), usuario.getEmail(), usuario.getSenha(), usuario.getDataCriacao(), usuario.getAtivo());
     }
 
     public static LoginDto getLoginDto(Usuario usuario) {

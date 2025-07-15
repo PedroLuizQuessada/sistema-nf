@@ -17,13 +17,14 @@ public class UsuarioJpaDtoMapper {
     public UsuarioJpa getJpa(UsuarioDto usuarioDto) {
         return new UsuarioJpa(usuarioDto.id(),
                 !Objects.isNull(usuarioDto.empresa()) ? empresaJpaDtoMapper.getJpa(usuarioDto.empresa()) : null,
-                usuarioDto.nome(), usuarioDto.tipo(), usuarioDto.email(), usuarioDto.senha(), new Date(usuarioDto.dataCriacao().getTime()));
+                usuarioDto.nome(), usuarioDto.tipo(), usuarioDto.email(), usuarioDto.senha(), new Date(usuarioDto.dataCriacao().getTime()),
+                usuarioDto.ativo());
     }
 
     public UsuarioDto getDto(UsuarioJpa usuarioJpa) {
         return new UsuarioDto(usuarioJpa.getId(),
                 !Objects.isNull(usuarioJpa.getEmpresa()) ? empresaJpaDtoMapper.getDto(usuarioJpa.getEmpresa()) : null,
                 usuarioJpa.getNome(), usuarioJpa.getTipo(), usuarioJpa.getEmail(), usuarioJpa.getSenha(),
-                new Date(usuarioJpa.getDataCriacao().getTime()));
+                new Date(usuarioJpa.getDataCriacao().getTime()), usuarioJpa.getAtivo());
     }
 }
