@@ -47,11 +47,25 @@ public class SolicitacaoRepoJpaImpl implements SolicitacaoDataSource {
     }
 
     @Override
+    public Optional<SolicitacaoDto> findSolicitacaoById(Long id) {
+        Optional<SolicitacaoJpa> optionalSolicitacaoJpa = Optional.ofNullable(entityManager.find(SolicitacaoJpa.class, id));
+        return optionalSolicitacaoJpa.map(solicitacaoJpaDtoMapper::getDto);
+    }
+
+    @Override
     @Transactional
     public void cancelarSolicitacao(SolicitacaoDto solicitacaoDto) {
         Query query = entityManager.createQuery("UPDATE SolicitacaoJpa solicitacao SET solicitacao.status = :status WHERE solicitacao.id = :id");
         query.setParameter("status", StatusSolicitacaoEnum.CANCELADO);
         query.setParameter("id", solicitacaoDto.id());
         query.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public SolicitacaoDto atualizarSolicitacao(SolicitacaoDto solicitacaoDto) {
+        SolicitacaoJpa solicitacaoJpa = solicitacaoJpaDtoMapper.getJpa(solicitacaoDto);
+        solicitacaoJpa = entityManager.merge(solicitacaoJpa);
+        return solicitacaoJpaDtoMapper.getDto(solicitacaoJpa);
     }
 }

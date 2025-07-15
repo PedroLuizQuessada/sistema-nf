@@ -43,11 +43,11 @@ public class SecurityConfig {
     private static final String[] WHITE_LIST_URL = { "/api/v1/auth/**", "/v2/api-docs", "/v3/api-docs",
             "/v3/api-docs/**", "/swagger-resources", "/swagger-resources/**", "/configuration/ui",
             "/configuration/security", "/swagger-ui/**", "/webjars/**", "/swagger-ui.html", "/api/auth/**",
-            "/api/test/**", "/api/v1/usuario/gerar-token" };
+            "/api/test/**" };
 
-    private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario", "/api/v1/usuario/**" };
+    private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario", "/api/v1/usuario/**", "/api/v1/solicitacao/atualizar-status/**" };
 
-    private static final String[] FUNCIONARIO_LIST_URL = { "/api/v1/solicitacao/upload-nf", "/api/v1/solicitacao/cancelar-solicitacao/**" };
+    private static final String[] FUNCIONARIO_LIST_URL = { "/api/v1/solicitacao/upload-nf", "/api/v1/solicitacao/cancelar/**" };
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;

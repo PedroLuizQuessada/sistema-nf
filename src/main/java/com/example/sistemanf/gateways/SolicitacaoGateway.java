@@ -30,7 +30,21 @@ public class SolicitacaoGateway {
         return SolicitacaoMapper.getEntidade(solicitacaoDtoOptional.get());
     }
 
+    public Solicitacao findSolicitacaoById(Long id) {
+        Optional<SolicitacaoDto> solicitacaoDtoOptional = solicitacaoDataSource.findSolicitacaoById(id);
+
+        if (solicitacaoDtoOptional.isEmpty())
+            throw new SolicitacaoNotFoundException();
+
+        return SolicitacaoMapper.getEntidade(solicitacaoDtoOptional.get());
+    }
+
     public void cancelarSolicitacao(SolicitacaoDto solicitacaoDto) {
         solicitacaoDataSource.cancelarSolicitacao(solicitacaoDto);
+    }
+
+    public Solicitacao atualizarSolicitacao(SolicitacaoDto atualizarSolicitacaoDto) {
+        SolicitacaoDto solicitacaoDto = solicitacaoDataSource.atualizarSolicitacao(atualizarSolicitacaoDto);
+        return SolicitacaoMapper.getEntidade(solicitacaoDto);
     }
 }

@@ -192,7 +192,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "{{APP URL}}/api/v1/solicitacao/cancelar-solicitacao/1",
+							"raw": "{{APP URL}}/api/v1/solicitacao/cancelar/1",
 							"host": [
 								"{{APP URL}}"
 							],
@@ -200,7 +200,52 @@
 								"api",
 								"v1",
 								"solicitacao",
-								"cancelar-solicitacao",
+								"cancelar",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário gerente atualizar status solicitação",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "email_gerente@empresa.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "SenhaUsuario1",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"RECUSADO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP URL}}/api/v1/solicitacao/atualizar-status/1",
+							"host": [
+								"{{APP URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"solicitacao",
+								"atualizar-status",
 								"1"
 							]
 						}

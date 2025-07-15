@@ -13,7 +13,7 @@ import java.util.Objects;
 public class Solicitacao {
 
     private final Long id;
-    private final StatusSolicitacaoEnum status;
+    private StatusSolicitacaoEnum status;
     private final Date dataEmissao;
     private final Date dataUpload;
     private final Double valor;
@@ -41,6 +41,17 @@ public class Solicitacao {
         this.pathArquivo = pathArquivo;
 
         this.dataUpload = !Objects.isNull(dataUpload) ? dataUpload : new java.sql.Date(java.sql.Date.from(Instant.now()).getTime());
+    }
+
+    public void setStatus(String statusTexto) {
+        StatusSolicitacaoEnum status;
+        try {
+            status = StatusSolicitacaoEnum.valueOf(statusTexto);
+        } catch (IllegalArgumentException e) {
+            throw new ValorInvalidoException("status não reconhecido.");
+        }
+        validarStatus(status);
+        this.status = status;
     }
 
     private void validarStatus(StatusSolicitacaoEnum status) {

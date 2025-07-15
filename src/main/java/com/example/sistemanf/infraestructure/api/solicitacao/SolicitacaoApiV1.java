@@ -6,6 +6,7 @@ import com.example.sistemanf.datasources.*;
 import com.example.sistemanf.dtos.RequesterDto;
 import com.example.sistemanf.dtos.SolicitacaoDto;
 import com.example.sistemanf.dtos.UsuarioDto;
+import com.example.sistemanf.dtos.requests.AtualizarStatusSolicitacaoRequest;
 import com.example.sistemanf.dtos.requests.UploadNotaFiscalRequest;
 import com.example.sistemanf.enums.TipoUsuarioEnum;
 import io.swagger.v3.oas.annotations.Operation;
@@ -95,7 +96,7 @@ public class SolicitacaoApiV1 {
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
-    @PutMapping("/cancelar-solicitacao/{id}")
+    @PutMapping("/cancelar/{id}")
     public ResponseEntity<Void> usuarioFuncionarioCancelarSolicitacao(@AuthenticationPrincipal UserDetails userDetails,
                                                              @RequestHeader(name = "Authorization", required = false) String token,
                                                              @PathVariable("id") Long id) {
@@ -106,6 +107,40 @@ public class SolicitacaoApiV1 {
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Atualizar status de solicitação",
+            description = "Requer autenticação e tipo de usuário 'GERENTE'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Status da solicitação atualizado com sucesso"),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'GERENTE'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Solicitação a ter seu status atualizado não encontrada",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PutMapping("/atualizar-status/{id}")
+    public ResponseEntity<SolicitacaoDto> usuarioGerenteAtualizarStatusSolicitacao(@AuthenticationPrincipal UserDetails userDetails,
+                                                                      @RequestHeader(name = "Authorization", required = false) String token,
+                                                                      @PathVariable("id") Long id,
+                                                                      @RequestBody @Valid AtualizarStatusSolicitacaoRequest request) {
+        RequesterDto requester = getRequester(userDetails, token);
+        log.info("Usuário gerente {} atualizando status da solicitação {} para: {}", requester.email(), id, request.status());
+        SolicitacaoDto solicitacao = solicitacaoController.atualizarStatusSolicitacao(request, id);
+        log.info("Usuário gerente {} atualizou status da solicição {} para: {}", requester.email(), id, solicitacao.status());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(solicitacao);
     }
 
     private RequesterDto getRequester(UserDetails userDetails, String token) {
