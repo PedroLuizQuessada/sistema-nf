@@ -27,7 +27,7 @@ public class UploadNotaFiscalUseCase {
 
     public Solicitacao execute(UploadNotaFiscalRequest request, String emailRequester) {
         Usuario usuario = usuarioGateway.findUserByEmail(emailRequester);
-        String nomeArquivo = emailRequester + TimeUtil.getNowFormatado() + request.extensaoArquivo();
+        String nomeArquivo = emailRequester + "_" + TimeUtil.getNowFormatado() + request.extensaoArquivo();
         File file = FileUtil.converterBase64ToFile(request.arquivoBase64(), UPLOAD_FILE_PATH + nomeArquivo);
         Double valor = notaFiscalGateway.getValorTotal(file);
         Solicitacao solicitacao = SolicitacaoMapper.getEntidade(request, valor, usuario, file.getAbsolutePath());
