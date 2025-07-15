@@ -28,6 +28,6 @@ public class SolicitacaoController {
         SolicitacaoGateway solicitacaoGateway = new SolicitacaoGateway(solicitacaoDataSource);
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
         UploadNotaFiscalUseCase useCase = new UploadNotaFiscalUseCase(notaFiscalGateway, solicitacaoGateway, usuarioGateway);
-        return SolicitacaoMapper.getDto(useCase.execute(request, emailRequester));
+        return SolicitacaoMapper.getResponse(useCase.execute(request, emailRequester));
     }
 }

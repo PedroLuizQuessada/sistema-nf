@@ -28,7 +28,7 @@ public class UsuarioController {
     public UsuarioDto criarUsuarioFuncionario(CriarUsuarioFuncionarioRequest request, String requesterEmail) {
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
         CriarUsuarioFuncionarioUseCase useCase = new CriarUsuarioFuncionarioUseCase(usuarioGateway);
-        return UsuarioMapper.getDto(useCase.execute(request, requesterEmail));
+        return UsuarioMapper.getResponse(useCase.execute(request, requesterEmail));
     }
 
     public TokenDto gerarToken(TipoUsuarioEnum tipo, String email) {

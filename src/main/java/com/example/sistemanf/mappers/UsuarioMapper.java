@@ -30,6 +30,12 @@ public class UsuarioMapper {
                 usuario.getNome(), usuario.getTipo(), usuario.getEmail(), usuario.getSenha(), usuario.getDataCriacao(), usuario.getAtivo());
     }
 
+    public static UsuarioDto getResponse(Usuario usuario) {
+        return new UsuarioDto(usuario.getId(),
+                !Objects.isNull(usuario.getEmpresa()) ? EmpresaMapper.getDto(usuario.getEmpresa()) : null,
+                usuario.getNome(), usuario.getTipo(), usuario.getEmail(), null, usuario.getDataCriacao(), usuario.getAtivo());
+    }
+
     public static LoginDto getLoginDto(Usuario usuario) {
         return new LoginDto(usuario.getEmail(), usuario.getSenha(), usuario.getTipo());
     }
