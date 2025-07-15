@@ -1,5 +1,6 @@
 package com.example.sistemanf.mappers;
 
+import com.example.sistemanf.dtos.NotaFiscalDto;
 import com.example.sistemanf.dtos.SolicitacaoDto;
 import com.example.sistemanf.dtos.requests.UploadNotaFiscalRequest;
 import com.example.sistemanf.entities.Solicitacao;
@@ -12,9 +13,9 @@ public class SolicitacaoMapper {
 
     private SolicitacaoMapper() {}
 
-    public static Solicitacao getEntidade(UploadNotaFiscalRequest request, Double valor, Usuario funcionario, String pathArquivo) {
-        return new Solicitacao(null, StatusSolicitacaoEnum.PENDENTE, request.dataEmissao(), null, valor, funcionario, request.descricao(),
-                request.cnpjServico(), pathArquivo);
+    public static Solicitacao getEntidade(UploadNotaFiscalRequest request, NotaFiscalDto notaFiscalDto, Usuario funcionario, String pathArquivo) {
+        return new Solicitacao(null, StatusSolicitacaoEnum.PENDENTE, notaFiscalDto.dataEmissao(), null,
+                notaFiscalDto.valor(), funcionario, request.descricao(), notaFiscalDto.cnpjServico(), pathArquivo);
     }
 
     public static Solicitacao getEntidade(SolicitacaoDto solicitacaoDto) {

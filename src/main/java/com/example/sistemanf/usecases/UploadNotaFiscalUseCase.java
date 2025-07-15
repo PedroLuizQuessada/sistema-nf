@@ -1,5 +1,6 @@
 package com.example.sistemanf.usecases;
 
+import com.example.sistemanf.dtos.NotaFiscalDto;
 import com.example.sistemanf.dtos.requests.UploadNotaFiscalRequest;
 import com.example.sistemanf.entities.Solicitacao;
 import com.example.sistemanf.entities.Usuario;
@@ -29,8 +30,8 @@ public class UploadNotaFiscalUseCase {
         Usuario usuario = usuarioGateway.findUserByEmail(emailRequester);
         String nomeArquivo = emailRequester + "_" + TimeUtil.getNowFormatado() + request.extensaoArquivo();
         File file = FileUtil.converterBase64ToFile(request.arquivoBase64(), UPLOAD_FILE_PATH + nomeArquivo);
-        Double valor = notaFiscalGateway.getValorTotal(file);
-        Solicitacao solicitacao = SolicitacaoMapper.getEntidade(request, valor, usuario, file.getAbsolutePath());
+        NotaFiscalDto notaFiscalDto = notaFiscalGateway.getNotaFiscalDto(file);
+        Solicitacao solicitacao = SolicitacaoMapper.getEntidade(request, notaFiscalDto, usuario, file.getAbsolutePath());
         return solicitacaoGateway.criarSolicitacao(SolicitacaoMapper.getDto(solicitacao));
     }
 }

@@ -1,6 +1,7 @@
 package com.example.sistemanf.utils;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class TimeUtil {
 
@@ -32,5 +33,13 @@ public class TimeUtil {
         }
 
         return dia + "_" + mes + "_" + ano + "_" + hora + "_" + minuto + "_" + segundo + "_" + millisegundo;
+    }
+
+    public static Date fromDataBrtoDate(String dataTexto) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dataTexto.substring(0, 2)) - 1);
+        calendar.set(Calendar.MONTH, Integer.parseInt(dataTexto.substring(3, 5)));
+        calendar.set(Calendar.YEAR, Integer.parseInt(dataTexto.substring(6)));
+        return calendar.getTime();
     }
 }
