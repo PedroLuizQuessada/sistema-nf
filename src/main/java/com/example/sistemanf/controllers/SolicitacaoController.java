@@ -9,6 +9,7 @@ import com.example.sistemanf.gateways.NotaFiscalGateway;
 import com.example.sistemanf.gateways.SolicitacaoGateway;
 import com.example.sistemanf.gateways.UsuarioGateway;
 import com.example.sistemanf.mappers.SolicitacaoMapper;
+import com.example.sistemanf.usecases.CancelarSolicitacaoUseCase;
 import com.example.sistemanf.usecases.UploadNotaFiscalUseCase;
 
 public class SolicitacaoController {
@@ -29,5 +30,11 @@ public class SolicitacaoController {
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
         UploadNotaFiscalUseCase useCase = new UploadNotaFiscalUseCase(notaFiscalGateway, solicitacaoGateway, usuarioGateway);
         return SolicitacaoMapper.getResponse(useCase.execute(request, emailRequester));
+    }
+
+    public void cancelarSolicitacao(Long id, String requesterEmail) {
+        SolicitacaoGateway solicitacaoGateway = new SolicitacaoGateway(solicitacaoDataSource);
+        CancelarSolicitacaoUseCase useCase = new CancelarSolicitacaoUseCase(solicitacaoGateway);
+        useCase.execute(id, requesterEmail);
     }
 }

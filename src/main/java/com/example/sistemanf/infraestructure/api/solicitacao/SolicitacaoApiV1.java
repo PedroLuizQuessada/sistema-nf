@@ -63,7 +63,7 @@ public class SolicitacaoApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @PostMapping("/upload-nf")
-    public ResponseEntity<SolicitacaoDto> uploadNotaFiscal(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<SolicitacaoDto> usuarioFuncionarioUploadNotaFiscal(@AuthenticationPrincipal UserDetails userDetails,
                                                                                 @RequestHeader(name = "Authorization", required = false) String token,
                                                                                 @RequestBody @Valid UploadNotaFiscalRequest request) {
         RequesterDto requester = getRequester(userDetails, token);
@@ -74,6 +74,38 @@ public class SolicitacaoApiV1 {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(solicitacao);
+    }
+
+    @Operation(summary = "Cancela solicitação",
+            description = "Requer autenticação e tipo de usuário 'FUNCIONARIO'",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "Solicitação cancelada com sucesso"),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "403",
+                    description = "Usuário autenticado não é 'FUNCIONARIO'",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Solicitação a ser cancelada não encontrada",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PutMapping("/cancelar-solicitacao/{id}")
+    public ResponseEntity<Void> usuarioFuncionarioCancelarSolicitacao(@AuthenticationPrincipal UserDetails userDetails,
+                                                             @RequestHeader(name = "Authorization", required = false) String token,
+                                                             @PathVariable("id") Long id) {
+        RequesterDto requester = getRequester(userDetails, token);
+        log.info("Usuário funcionário {} cancelando solicitação: {}", requester.email(), id);
+        solicitacaoController.cancelarSolicitacao(id, requester.email());
+        log.info("Usuário funcionário {} cancelou usuário: {}", requester.email(), id);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT).build();
     }
 
     private RequesterDto getRequester(UserDetails userDetails, String token) {

@@ -170,6 +170,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Usuário funcionário cancelar solicitação",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "email_funcionario@empresa.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "SenhaUsuario1",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{APP URL}}/api/v1/solicitacao/cancelar-solicitacao/1",
+							"host": [
+								"{{APP URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"solicitacao",
+								"cancelar-solicitacao",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

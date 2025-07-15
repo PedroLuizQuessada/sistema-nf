@@ -61,7 +61,7 @@ public class UsuarioApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @GetMapping("/gerar-token")
-    public ResponseEntity<TokenDto> gerarToken(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<TokenDto> usuarioGerarToken(@AuthenticationPrincipal UserDetails userDetails,
                                                        @RequestHeader(name = "Authorization", required = false) String token) {
         RequesterDto requester = getRequester(userDetails, token);
         log.info("Usuário {} gerando token de acesso", requester.email());
@@ -128,7 +128,7 @@ public class UsuarioApiV1 {
                             schema = @Schema(implementation = ProblemDetail.class)))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<Void> usuarioGerenteExcluirUsuario(@AuthenticationPrincipal UserDetails userDetails,
                                        @RequestHeader(name = "Authorization", required = false) String token,
                                        @PathVariable("id") Long id) {
         RequesterDto requester = getRequester(userDetails, token);

@@ -47,7 +47,7 @@ public class SecurityConfig {
 
     private static final String[] GERENTE_LIST_URL = { "/api/v1/usuario", "/api/v1/usuario/**" };
 
-    private static final String[] FUNCIONARIO_LIST_URL = { "/api/v1/solicitacao/upload-nf" };
+    private static final String[] FUNCIONARIO_LIST_URL = { "/api/v1/solicitacao/upload-nf", "/api/v1/solicitacao/cancelar-solicitacao/**" };
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
