@@ -1,11 +1,13 @@
 package com.example.sistemanf.entities;
 
 import com.example.sistemanf.exceptions.ValorInvalidoException;
+import lombok.Getter;
 
 import java.time.Instant;
 import java.util.Date;
 import java.util.Objects;
 
+@Getter
 public class Log {
 
     private final Long id;

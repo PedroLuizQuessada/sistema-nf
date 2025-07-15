@@ -37,8 +37,8 @@ public class SolicitacaoApiV1 {
     private final RequesterController requesterController;
 
     public SolicitacaoApiV1(NotaFiscalDataSource notaFiscalDataSource, SolicitacaoDataSource solicitacaoDataSource, UsuarioDataSource usuarioDataSource,
-                            RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
-        this.solicitacaoController = new SolicitacaoController(notaFiscalDataSource, solicitacaoDataSource, usuarioDataSource);
+                            RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource, LogDataSource logDataSource) {
+        this.solicitacaoController = new SolicitacaoController(notaFiscalDataSource, solicitacaoDataSource, usuarioDataSource, logDataSource);
         this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
     }
 
@@ -135,7 +135,7 @@ public class SolicitacaoApiV1 {
                                                                       @RequestBody @Valid AtualizarStatusSolicitacaoRequest request) {
         RequesterDto requester = getRequester(userDetails, token);
         log.info("Usuário gerente {} atualizando status da solicitação {} para: {}", requester.email(), id, request.status());
-        SolicitacaoDto solicitacao = solicitacaoController.atualizarStatusSolicitacao(request, id);
+        SolicitacaoDto solicitacao = solicitacaoController.atualizarStatusSolicitacao(request, id, requester.email());
         log.info("Usuário gerente {} atualizou status da solicição {} para: {}", requester.email(), id, solicitacao.status());
 
         return ResponseEntity

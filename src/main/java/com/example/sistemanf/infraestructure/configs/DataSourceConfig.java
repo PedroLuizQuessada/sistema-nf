@@ -2,6 +2,7 @@ package com.example.sistemanf.infraestructure.configs;
 
 import com.example.sistemanf.datasources.*;
 import com.example.sistemanf.infraestructure.persistence.jpa.repos.EmpresaRepoJpaImpl;
+import com.example.sistemanf.infraestructure.persistence.jpa.repos.LogRepoJpaImpl;
 import com.example.sistemanf.infraestructure.persistence.jpa.repos.SolicitacaoRepoJpaImpl;
 import com.example.sistemanf.infraestructure.persistence.jpa.repos.UsuarioRepoJpaImpl;
 import com.example.sistemanf.infraestructure.services.NotaFiscalServiceTesseractImpl;
@@ -41,5 +42,10 @@ public class DataSourceConfig {
     @Bean
     public NotaFiscalDataSource notaFiscalDataSource() {
         return new NotaFiscalServiceTesseractImpl();
+    }
+
+    @Bean
+    public LogDataSource logDataSource() {
+        return new LogRepoJpaImpl();
     }
 }
