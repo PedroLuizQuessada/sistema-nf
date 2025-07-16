@@ -1,10 +1,8 @@
 package com.example.sistemanf.infraestructure.configs;
 
 import com.example.sistemanf.datasources.*;
-import com.example.sistemanf.infraestructure.persistence.jpa.repos.EmpresaRepoJpaImpl;
-import com.example.sistemanf.infraestructure.persistence.jpa.repos.LogRepoJpaImpl;
-import com.example.sistemanf.infraestructure.persistence.jpa.repos.SolicitacaoRepoJpaImpl;
-import com.example.sistemanf.infraestructure.persistence.jpa.repos.UsuarioRepoJpaImpl;
+import com.example.sistemanf.infraestructure.persistence.jpa.repos.*;
+import com.example.sistemanf.infraestructure.services.EmailServiceJavaMailSenderImpl;
 import com.example.sistemanf.infraestructure.services.NotaFiscalServiceTesseractImpl;
 import com.example.sistemanf.infraestructure.services.RequesterServiceImpl;
 import com.example.sistemanf.infraestructure.services.TokenServiceJwtImpl;
@@ -47,5 +45,15 @@ public class DataSourceConfig {
     @Bean
     public LogDataSource logDataSource() {
         return new LogRepoJpaImpl();
+    }
+
+    @Bean
+    public SolicitacaoNovaSenhaDataSource solicitacaoNovaSenhaDataSource() {
+        return new SolicitacaoNovaSenhaRepoJpaImpl();
+    }
+
+    @Bean
+    public EmailDataSource emailDataSource() {
+        return new EmailServiceJavaMailSenderImpl();
     }
 }

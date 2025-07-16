@@ -36,3 +36,4 @@ build/
 /src/main/resources/app.pub
 /src/main/resources/data.sql
 /src/main/resources/uploads/*
+/src/main/resources/application.properties

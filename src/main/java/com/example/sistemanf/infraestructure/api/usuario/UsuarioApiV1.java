@@ -2,10 +2,9 @@ package com.example.sistemanf.infraestructure.api.usuario;
 
 import com.example.sistemanf.controllers.RequesterController;
 import com.example.sistemanf.controllers.UsuarioController;
-import com.example.sistemanf.datasources.RequesterDataSource;
-import com.example.sistemanf.datasources.TokenDataSource;
-import com.example.sistemanf.datasources.UsuarioDataSource;
+import com.example.sistemanf.datasources.*;
 import com.example.sistemanf.dtos.RequesterDto;
+import com.example.sistemanf.dtos.SolicitacaoNovaSenhaDto;
 import com.example.sistemanf.dtos.TokenDto;
 import com.example.sistemanf.dtos.UsuarioDto;
 import com.example.sistemanf.dtos.requests.CriarUsuarioFuncionarioRequest;
@@ -37,8 +36,9 @@ public class UsuarioApiV1 {
     private final UsuarioController usuarioController;
     private final RequesterController requesterController;
 
-    public UsuarioApiV1(UsuarioDataSource usuarioDataSource, RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource) {
-        this.usuarioController = new UsuarioController(usuarioDataSource, tokenDataSource);
+    public UsuarioApiV1(UsuarioDataSource usuarioDataSource, RequesterDataSource requesterDataSource, TokenDataSource tokenDataSource,
+                        SolicitacaoNovaSenhaDataSource solicitacaoNovaSenhaDataSource, EmailDataSource emailDataSource) {
+        this.usuarioController = new UsuarioController(usuarioDataSource, tokenDataSource, solicitacaoNovaSenhaDataSource, emailDataSource);
         this.requesterController = new RequesterController(requesterDataSource, tokenDataSource);
     }
 
@@ -138,6 +138,32 @@ public class UsuarioApiV1 {
 
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Gera uma solicitação para alteração de senha do usuário",
+            description = "Requer autenticação",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "201",
+                    description = "Solicitação para alteração de senha criada com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SolicitacaoNovaSenhaDto.class))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PostMapping("/nova-senha")
+    public ResponseEntity<SolicitacaoNovaSenhaDto> usuarioGerarSolicitacaoNovaSenha(@AuthenticationPrincipal UserDetails userDetails,
+                                                                                   @RequestHeader(name = "Authorization", required = false) String token) {
+        RequesterDto requester = getRequester(userDetails, token);
+        log.info("Usuário {} solicitando nova senha", requester.email());
+        SolicitacaoNovaSenhaDto solicitacaoNovaSenha = usuarioController.gerarSolicitacaoNovaSenha(requester.email());
+        log.info("Usuário {} solicitou nova senha", requester.email());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(solicitacaoNovaSenha);
     }
 
     private RequesterDto getRequester(UserDetails userDetails, String token) {
