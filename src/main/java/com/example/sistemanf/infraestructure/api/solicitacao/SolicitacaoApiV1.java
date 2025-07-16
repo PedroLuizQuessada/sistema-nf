@@ -7,9 +7,11 @@ import com.example.sistemanf.dtos.RequesterDto;
 import com.example.sistemanf.dtos.SolicitacaoDto;
 import com.example.sistemanf.dtos.UsuarioDto;
 import com.example.sistemanf.dtos.requests.AtualizarStatusSolicitacaoRequest;
+import com.example.sistemanf.dtos.requests.ConsultarSolicitacoesRequest;
 import com.example.sistemanf.dtos.requests.UploadNotaFiscalRequest;
 import com.example.sistemanf.enums.TipoUsuarioEnum;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -25,6 +27,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Slf4j
@@ -141,6 +144,33 @@ public class SolicitacaoApiV1 {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(solicitacao);
+    }
+
+    @Operation(summary = "Consultar solicitações",
+            description = "Requer autenticação",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",
+                    description = "Solicitações consultadas com sucesso",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = SolicitacaoDto.class)))),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @GetMapping()
+    public ResponseEntity<List<SolicitacaoDto>> usuarioConsultarSolicitacoes(@AuthenticationPrincipal UserDetails userDetails,
+                                                                                        @RequestHeader(name = "Authorization", required = false) String token,
+                                                                                        @RequestBody @Valid ConsultarSolicitacoesRequest request) {
+        RequesterDto requester = getRequester(userDetails, token);
+        log.info("Usuário {} consultando solicitações", requester.email());
+        List<SolicitacaoDto> solicitacaoDtoList = solicitacaoController.consultarSolicitacoes(request, requester.email());
+        log.info("Usuário {} consultou {} solicitações", requester.email(), solicitacaoDtoList.size());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(solicitacaoDtoList);
     }
 
     private RequesterDto getRequester(UserDetails userDetails, String token) {

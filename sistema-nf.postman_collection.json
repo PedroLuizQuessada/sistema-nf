@@ -172,6 +172,52 @@
 					"response": []
 				},
 				{
+					"name": "Usuário consulta solicitações",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "SenhaUsuario1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "email_gerente@empresa.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"size\": 2,\r\n    \"id\": null,\r\n    \"ordenacao\": null,\r\n    \"sentidoOrdenacao\": true,\r\n    \"status\": null,\r\n    \"dataEmissaoInicio\": null,\r\n    \"dataEmissaoFim\": null,\r\n    \"dataUploadInicio\": null,\r\n    \"dataUploadFim\": null,\r\n    \"valor\": null,\r\n    \"nomeFuncionario\": null,\r\n    \"descricao\": null,\r\n    \"cnpjServico\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP URL}}/api/v1/solicitacao",
+							"host": [
+								"{{APP URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"solicitacao"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Usuário funcionário cancelar solicitação",
 					"request": {
 						"auth": {

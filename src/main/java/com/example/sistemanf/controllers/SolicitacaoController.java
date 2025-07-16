@@ -6,7 +6,9 @@ import com.example.sistemanf.datasources.SolicitacaoDataSource;
 import com.example.sistemanf.datasources.UsuarioDataSource;
 import com.example.sistemanf.dtos.SolicitacaoDto;
 import com.example.sistemanf.dtos.requests.AtualizarStatusSolicitacaoRequest;
+import com.example.sistemanf.dtos.requests.ConsultarSolicitacoesRequest;
 import com.example.sistemanf.dtos.requests.UploadNotaFiscalRequest;
+import com.example.sistemanf.entities.Solicitacao;
 import com.example.sistemanf.gateways.LogGateway;
 import com.example.sistemanf.gateways.NotaFiscalGateway;
 import com.example.sistemanf.gateways.SolicitacaoGateway;
@@ -14,7 +16,10 @@ import com.example.sistemanf.gateways.UsuarioGateway;
 import com.example.sistemanf.mappers.SolicitacaoMapper;
 import com.example.sistemanf.usecases.AtualizarStatusSolicitacaoUseCase;
 import com.example.sistemanf.usecases.CancelarSolicitacaoUseCase;
+import com.example.sistemanf.usecases.ConsultarSolicitacoesUseCase;
 import com.example.sistemanf.usecases.UploadNotaFiscalUseCase;
+
+import java.util.List;
 
 public class SolicitacaoController {
 
@@ -53,5 +58,13 @@ public class SolicitacaoController {
         LogGateway logGateway = new LogGateway(logDataSource);
         AtualizarStatusSolicitacaoUseCase useCase = new AtualizarStatusSolicitacaoUseCase(solicitacaoGateway, usuarioGateway, logGateway);
         return SolicitacaoMapper.getResponse(useCase.execute(request, id, requesterEmail));
+    }
+
+    public List<SolicitacaoDto> consultarSolicitacoes(ConsultarSolicitacoesRequest request, String requesterEmail) {
+        SolicitacaoGateway solicitacaoGateway = new SolicitacaoGateway(solicitacaoDataSource);
+        UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
+        ConsultarSolicitacoesUseCase useCase = new ConsultarSolicitacoesUseCase(solicitacaoGateway, usuarioGateway);
+        List<Solicitacao> solicitacaoList = useCase.execute(request, requesterEmail);
+        return solicitacaoList.stream().map(SolicitacaoMapper::getResponse).toList();
     }
 }
