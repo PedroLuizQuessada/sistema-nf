@@ -162,10 +162,12 @@ public class SolicitacaoApiV1 {
     @GetMapping()
     public ResponseEntity<List<SolicitacaoDto>> usuarioConsultarSolicitacoes(@AuthenticationPrincipal UserDetails userDetails,
                                                                                         @RequestHeader(name = "Authorization", required = false) String token,
+                                                                                        @RequestParam("page") int page,
+                                                                                        @RequestParam("size") int size,
                                                                                         @RequestBody @Valid ConsultarSolicitacoesRequest request) {
         RequesterDto requester = getRequester(userDetails, token);
         log.info("Usuário {} consultando solicitações", requester.email());
-        List<SolicitacaoDto> solicitacaoDtoList = solicitacaoController.consultarSolicitacoes(request, requester.email());
+        List<SolicitacaoDto> solicitacaoDtoList = solicitacaoController.consultarSolicitacoes(page, size, request, requester.email());
         log.info("Usuário {} consultou {} solicitações", requester.email(), solicitacaoDtoList.size());
 
         return ResponseEntity

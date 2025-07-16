@@ -60,11 +60,11 @@ public class SolicitacaoController {
         return SolicitacaoMapper.getResponse(useCase.execute(request, id, requesterEmail));
     }
 
-    public List<SolicitacaoDto> consultarSolicitacoes(ConsultarSolicitacoesRequest request, String requesterEmail) {
+    public List<SolicitacaoDto> consultarSolicitacoes(int page, int size, ConsultarSolicitacoesRequest request, String requesterEmail) {
         SolicitacaoGateway solicitacaoGateway = new SolicitacaoGateway(solicitacaoDataSource);
         UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
         ConsultarSolicitacoesUseCase useCase = new ConsultarSolicitacoesUseCase(solicitacaoGateway, usuarioGateway);
-        List<Solicitacao> solicitacaoList = useCase.execute(request, requesterEmail);
+        List<Solicitacao> solicitacaoList = useCase.execute(page, size, request, requesterEmail);
         return solicitacaoList.stream().map(SolicitacaoMapper::getResponse).toList();
     }
 }

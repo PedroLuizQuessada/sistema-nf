@@ -20,7 +20,7 @@ public class ConsultarSolicitacoesUseCase {
         this.usuarioGateway = usuarioGateway;
     }
 
-    public List<Solicitacao> execute(ConsultarSolicitacoesRequest request, String requesterEmail) {
+    public List<Solicitacao> execute(int page, int size, ConsultarSolicitacoesRequest request, String requesterEmail) {
         Usuario usuario = usuarioGateway.findUserByEmail(requesterEmail);
         String nomeFuncionario = request.nomeFuncionario();
         Long empresa = usuario.getEmpresa().getId();
@@ -28,7 +28,7 @@ public class ConsultarSolicitacoesUseCase {
         if (Objects.equals(usuario.getTipo(), TipoUsuarioEnum.FUNCIONARIO))
             nomeFuncionario = usuario.getNome();
 
-        return solicitacaoGateway.consultarSolicitacoes(request.page(), request.size(), request.ordenacao(), request.sentidoOrdenacao(),
+        return solicitacaoGateway.consultarSolicitacoes(page, size, request.ordenacao(), request.sentidoOrdenacao(),
                 empresa, request.id(), request.status(), request.dataEmissaoInicio(), request.dataEmissaoFim(), request.dataUploadInicio(),
                 request.dataUploadFim(), request.valor(), nomeFuncionario, request.descricao(), request.cnpjServico());
     }

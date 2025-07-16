@@ -196,7 +196,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"page\": 1,\r\n    \"size\": 2,\r\n    \"id\": null,\r\n    \"ordenacao\": null,\r\n    \"sentidoOrdenacao\": true,\r\n    \"status\": null,\r\n    \"dataEmissaoInicio\": null,\r\n    \"dataEmissaoFim\": null,\r\n    \"dataUploadInicio\": null,\r\n    \"dataUploadFim\": null,\r\n    \"valor\": null,\r\n    \"nomeFuncionario\": null,\r\n    \"descricao\": null,\r\n    \"cnpjServico\": null\r\n}",
+							"raw": "{\r\n    \"id\": null,\r\n    \"ordenacao\": null,\r\n    \"sentidoOrdenacao\": true,\r\n    \"status\": null,\r\n    \"dataEmissaoInicio\": null,\r\n    \"dataEmissaoFim\": null,\r\n    \"dataUploadInicio\": null,\r\n    \"dataUploadFim\": null,\r\n    \"valor\": null,\r\n    \"nomeFuncionario\": null,\r\n    \"descricao\": null,\r\n    \"cnpjServico\": null\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -204,7 +204,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{APP URL}}/api/v1/solicitacao",
+							"raw": "{{APP URL}}/api/v1/solicitacao?page=1&size=2",
 							"host": [
 								"{{APP URL}}"
 							],
@@ -212,6 +212,16 @@
 								"api",
 								"v1",
 								"solicitacao"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
 							]
 						}
 					},
