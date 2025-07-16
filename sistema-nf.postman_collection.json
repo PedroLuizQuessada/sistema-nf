@@ -299,6 +299,56 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "log",
+			"item": [
+				{
+					"name": "Usuário consulta logs de uma solicitação",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "SenhaUsuario1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "email_gerente@empresa.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{APP URL}}/api/v1/log/1?page=1&size=10",
+							"host": [
+								"{{APP URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"log",
+								"1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [

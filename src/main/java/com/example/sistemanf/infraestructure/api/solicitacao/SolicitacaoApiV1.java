@@ -33,7 +33,7 @@ import java.util.Objects;
 @Slf4j
 @RestController
 @RequestMapping(path = "/api/v1/solicitacao")
-@Tag(name = "Usuário API V1", description = "Versão 1 do controlador referente a solicitações")
+@Tag(name = "Solicitação API V1", description = "Versão 1 do controlador referente a solicitações")
 public class SolicitacaoApiV1 {
 
     private final SolicitacaoController solicitacaoController;

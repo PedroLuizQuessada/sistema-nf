@@ -23,4 +23,11 @@ public class LogJpaDtoMapper {
                 !Objects.isNull(logDto.usuario()) ? usuarioJpaDtoMapper.getJpa(logDto.usuario()) : null,
                 new Date(logDto.dataAlteracao().getTime()), logDto.acao());
     }
+
+    public LogDto getDto(LogJpa logJpa) {
+        return new LogDto(logJpa.getId(),
+                !Objects.isNull(logJpa.getSolicitacao()) ? solicitacaoJpaDtoMapper.getDto(logJpa.getSolicitacao()) : null,
+                !Objects.isNull(logJpa.getUsuario()) ? usuarioJpaDtoMapper.getDto(logJpa.getUsuario()) : null,
+                new Date(logJpa.getDataAlteracao().getTime()), logJpa.getAcao());
+    }
 }

@@ -28,4 +28,11 @@ public class LogMapper {
                 !Objects.isNull(log.getUsuario()) ? UsuarioMapper.getDto(log.getUsuario()) : null,
                 log.getDataAlteracao(), log.getAcao());
     }
+
+    public static LogDto getResponse(Log log) {
+        return new LogDto(log.getId(),
+                !Objects.isNull(log.getSolicitacao()) ? SolicitacaoMapper.getResponse(log.getSolicitacao()) : null,
+                !Objects.isNull(log.getUsuario()) ? UsuarioMapper.getResponse(log.getUsuario()) : null,
+                log.getDataAlteracao(), log.getAcao());
+    }
 }

@@ -50,7 +50,7 @@ public class SecurityConfig {
 
     private static final String[] FUNCIONARIO_LIST_URL = { "/api/v1/solicitacao/upload-nf", "/api/v1/solicitacao/cancelar/**" };
 
-    private static final String[] AUTHENTICATED_LIST_URL = { "/api/v1/usuario/gerar-token", "/api/v1/solicitacao" };
+    private static final String[] AUTHENTICATED_LIST_URL = { "/api/v1/usuario/gerar-token", "/api/v1/solicitacao", "/api/v1/log/**" };
 
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
