@@ -25,18 +25,23 @@ public class SolicitacaoNovaSenhaJpa {
     @Column(nullable = false, length = 6)
     private String codigo;
 
-    @Column(nullable = false)
+    @Column(name = "data_expiracao", nullable = false)
     private LocalDateTime dataExpiracao;
 
-    public SolicitacaoNovaSenhaJpa(Long id, UsuarioJpa usuario, String codigo, LocalDateTime dataExpiracao) {
+    @Column(nullable = false)
+    private Boolean ativo;
+
+    public SolicitacaoNovaSenhaJpa(Long id, UsuarioJpa usuario, String codigo, LocalDateTime dataExpiracao, Boolean ativo) {
         validarUsuario(usuario);
         validarCodigo(codigo);
         validarDataExpiracao(dataExpiracao);
+        validarAtivo(ativo);
 
         this.id = id;
         this.usuario = usuario;
         this.codigo = codigo;
         this.dataExpiracao = dataExpiracao;
+        this.ativo = ativo;
     }
 
     private void validarUsuario(UsuarioJpa usuario) {
@@ -55,5 +60,10 @@ public class SolicitacaoNovaSenhaJpa {
     private void validarDataExpiracao(LocalDateTime dataExpiracao) {
         if (Objects.isNull(dataExpiracao))
             throw new ValorInvalidoJpaException("a solicitação para nova senha deve possuir uma data de expiração.");
+    }
+
+    private void validarAtivo(Boolean ativo) {
+        if (Objects.isNull(ativo))
+            throw new ValorInvalidoJpaException("a solicitação para nova senha deve possuir um indicativo de atividade.");
     }
 }

@@ -18,7 +18,7 @@ public class Usuario {
     private final String nome;
     private final TipoUsuarioEnum tipo;
     private final String email;
-    private final String senha;
+    private String senha;
     private final Date dataCriacao;
     private final Boolean ativo;
 
@@ -83,5 +83,11 @@ public class Usuario {
     private void validarAtivo(Boolean ativo) {
         if (Objects.isNull(ativo))
             throw new ValorInvalidoException("usuário deve possuir um indicativo de atividade.");
+    }
+
+    public void setSenha(String senha) {
+        validateSenha(senha);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.senha = encoder.encode(senha);
     }
 }

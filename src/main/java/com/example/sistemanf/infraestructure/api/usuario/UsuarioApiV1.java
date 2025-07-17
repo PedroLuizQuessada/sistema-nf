@@ -7,6 +7,7 @@ import com.example.sistemanf.dtos.RequesterDto;
 import com.example.sistemanf.dtos.SolicitacaoNovaSenhaDto;
 import com.example.sistemanf.dtos.TokenDto;
 import com.example.sistemanf.dtos.UsuarioDto;
+import com.example.sistemanf.dtos.requests.AlterarSenhaRequest;
 import com.example.sistemanf.dtos.requests.CriarUsuarioFuncionarioRequest;
 import com.example.sistemanf.enums.TipoUsuarioEnum;
 import io.swagger.v3.oas.annotations.Operation;
@@ -164,6 +165,34 @@ public class UsuarioApiV1 {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(solicitacaoNovaSenha);
+    }
+
+    @Operation(summary = "Alterar senha do usuário",
+            description = "Requer autenticação",
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses({
+            @ApiResponse(responseCode = "204",
+                    description = "Senha alterada com sucesso"),
+            @ApiResponse(responseCode = "401",
+                    description = "Credenciais de acesso inválidas",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class))),
+            @ApiResponse(responseCode = "404",
+                    description = "Solicitação de nova senha não encontrada",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProblemDetail.class)))
+    })
+    @PutMapping("/nova-senha")
+    public ResponseEntity<Void> usuarioAlterarSenha(@AuthenticationPrincipal UserDetails userDetails,
+                                                    @RequestHeader(name = "Authorization", required = false) String token,
+                                                    @RequestBody @Valid AlterarSenhaRequest request) {
+        RequesterDto requester = getRequester(userDetails, token);
+        log.info("Usuário {} alterando sua senha", requester.email());
+        usuarioController.alterarSenha(request, requester.email());
+        log.info("Usuário {} alterou sua senha", requester.email());
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT).build();
     }
 
     private RequesterDto getRequester(UserDetails userDetails, String token) {

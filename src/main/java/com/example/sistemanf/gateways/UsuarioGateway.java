@@ -63,4 +63,9 @@ public class UsuarioGateway {
     public void excluir(UsuarioDto usuarioDto) {
         usuarioDataSource.excluirUsuario(usuarioDto);
     }
+
+    public Usuario atualizarUsuario(UsuarioDto atualizarUsuarioDto) {
+        UsuarioDto usuarioDto = usuarioDataSource.atualizarUsuario(atualizarUsuarioDto);
+        return UsuarioMapper.getEntidade(usuarioDto, false);
+    }
 }

@@ -7,6 +7,7 @@ import com.example.sistemanf.datasources.UsuarioDataSource;
 import com.example.sistemanf.dtos.SolicitacaoNovaSenhaDto;
 import com.example.sistemanf.dtos.TokenDto;
 import com.example.sistemanf.dtos.UsuarioDto;
+import com.example.sistemanf.dtos.requests.AlterarSenhaRequest;
 import com.example.sistemanf.dtos.requests.CriarUsuarioFuncionarioRequest;
 import com.example.sistemanf.entities.SolicitacaoNovaSenha;
 import com.example.sistemanf.entities.Token;
@@ -18,10 +19,7 @@ import com.example.sistemanf.gateways.UsuarioGateway;
 import com.example.sistemanf.mappers.SolicitacaoNovaSenhaMapper;
 import com.example.sistemanf.mappers.TokenMapper;
 import com.example.sistemanf.mappers.UsuarioMapper;
-import com.example.sistemanf.usecases.CriarUsuarioFuncionarioUseCase;
-import com.example.sistemanf.usecases.ExcluirUsuarioUseCase;
-import com.example.sistemanf.usecases.GerarSolicitacaoNovaSenhaUseCase;
-import com.example.sistemanf.usecases.GerarTokenUseCase;
+import com.example.sistemanf.usecases.*;
 
 public class UsuarioController {
 
@@ -64,5 +62,12 @@ public class UsuarioController {
         GerarSolicitacaoNovaSenhaUseCase useCase = new GerarSolicitacaoNovaSenhaUseCase(solicitacaoNovaSenhaGateway, emailGateway, usuarioGateway);
         SolicitacaoNovaSenha solicitacaoNovaSenha = useCase.execute(requesterEmail);
         return SolicitacaoNovaSenhaMapper.getResponse(solicitacaoNovaSenha);
+    }
+
+    public void alterarSenha(AlterarSenhaRequest request, String requesterEmail) {
+        SolicitacaoNovaSenhaGateway solicitacaoNovaSenhaGateway = new SolicitacaoNovaSenhaGateway(solicitacaoNovaSenhaDataSource);
+        UsuarioGateway usuarioGateway = new UsuarioGateway(usuarioDataSource);
+        AlterarSenhaUseCase alterarSenhaUseCase = new AlterarSenhaUseCase(solicitacaoNovaSenhaGateway, usuarioGateway);
+        alterarSenhaUseCase.execute(request, requesterEmail);
     }
 }

@@ -88,6 +88,85 @@
 					"response": []
 				},
 				{
+					"name": "Usuário solicitar alteração de senha",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "SenhaUsuario1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "email_gerente@empresa.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{APP URL}}/api/v1/usuario/nova-senha",
+							"host": [
+								"{{APP URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"usuario",
+								"nova-senha"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Usuário alterar senha",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "SenhaUsuario1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "email_gerente@empresa.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codigo\": \"\",\r\n    \"novaSenha\": \"abc123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{APP URL}}/api/v1/usuario/nova-senha",
+							"host": [
+								"{{APP URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"usuario",
+								"nova-senha"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Usuário gerente excluir um usuário funcionário",
 					"request": {
 						"auth": {

@@ -17,18 +17,18 @@ public class SolicitacaoNovaSenhaMapper {
     public static SolicitacaoNovaSenha getEntidade(SolicitacaoNovaSenhaDto solicitacaoNovaSenhaDto) {
         return new SolicitacaoNovaSenha(solicitacaoNovaSenhaDto.id(),
                 !Objects.isNull(solicitacaoNovaSenhaDto.usuarioDto()) ? UsuarioMapper.getEntidade(solicitacaoNovaSenhaDto.usuarioDto(), false) : null,
-                solicitacaoNovaSenhaDto.codigo(), solicitacaoNovaSenhaDto.dataExpiracao());
+                solicitacaoNovaSenhaDto.codigo(), solicitacaoNovaSenhaDto.dataExpiracao(), solicitacaoNovaSenhaDto.ativo());
     }
 
     public static SolicitacaoNovaSenhaDto getDto(SolicitacaoNovaSenha solicitacaoNovaSenha) {
         return new SolicitacaoNovaSenhaDto(solicitacaoNovaSenha.getId(),
                 !Objects.isNull(solicitacaoNovaSenha.getUsuario()) ? UsuarioMapper.getDto(solicitacaoNovaSenha.getUsuario()) : null,
-                solicitacaoNovaSenha.getCodigo(), solicitacaoNovaSenha.getDataExpiracao());
+                solicitacaoNovaSenha.getCodigo(), solicitacaoNovaSenha.getDataExpiracao(), solicitacaoNovaSenha.getAtivo());
     }
 
     public static SolicitacaoNovaSenhaDto getResponse(SolicitacaoNovaSenha solicitacaoNovaSenha) {
         return new SolicitacaoNovaSenhaDto(solicitacaoNovaSenha.getId(),
                 !Objects.isNull(solicitacaoNovaSenha.getUsuario()) ? UsuarioMapper.getResponse(solicitacaoNovaSenha.getUsuario()) : null,
-                null, solicitacaoNovaSenha.getDataExpiracao());
+                null, solicitacaoNovaSenha.getDataExpiracao(), solicitacaoNovaSenha.getAtivo());
     }
 }

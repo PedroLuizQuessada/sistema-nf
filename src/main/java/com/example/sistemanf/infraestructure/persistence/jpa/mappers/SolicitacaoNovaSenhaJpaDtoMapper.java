@@ -16,12 +16,12 @@ public class SolicitacaoNovaSenhaJpaDtoMapper {
     public SolicitacaoNovaSenhaJpa getJpa(SolicitacaoNovaSenhaDto solicitacaoNovaSenhaDto) {
         return new SolicitacaoNovaSenhaJpa(solicitacaoNovaSenhaDto.id(),
                 !Objects.isNull(solicitacaoNovaSenhaDto.usuarioDto()) ? usuarioJpaDtoMapper.getJpa(solicitacaoNovaSenhaDto.usuarioDto()) : null,
-                solicitacaoNovaSenhaDto.codigo(), solicitacaoNovaSenhaDto.dataExpiracao());
+                solicitacaoNovaSenhaDto.codigo(), solicitacaoNovaSenhaDto.dataExpiracao(), solicitacaoNovaSenhaDto.ativo());
     }
 
     public SolicitacaoNovaSenhaDto getDto(SolicitacaoNovaSenhaJpa solicitacaoNovaSenhaJpa) {
         return new SolicitacaoNovaSenhaDto(solicitacaoNovaSenhaJpa.getId(),
                 !Objects.isNull(solicitacaoNovaSenhaJpa.getUsuario()) ? usuarioJpaDtoMapper.getDto(solicitacaoNovaSenhaJpa.getUsuario()) : null,
-                solicitacaoNovaSenhaJpa.getCodigo(), solicitacaoNovaSenhaJpa.getDataExpiracao());
+                solicitacaoNovaSenhaJpa.getCodigo(), solicitacaoNovaSenhaJpa.getDataExpiracao(), solicitacaoNovaSenhaJpa.getAtivo());
     }
 }

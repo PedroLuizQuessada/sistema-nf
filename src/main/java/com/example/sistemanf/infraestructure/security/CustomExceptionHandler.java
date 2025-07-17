@@ -1,9 +1,6 @@
 package com.example.sistemanf.infraestructure.security;
 
-import com.example.sistemanf.exceptions.EmpresaNotFoundException;
-import com.example.sistemanf.exceptions.SolicitacaoNotFoundException;
-import com.example.sistemanf.exceptions.UsuarioNotFoundException;
-import com.example.sistemanf.exceptions.ValorInvalidoException;
+import com.example.sistemanf.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -24,7 +21,8 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler(value = { EmpresaNotFoundException.class, UsuarioNotFoundException.class, SolicitacaoNotFoundException.class })
+    @ExceptionHandler(value = { EmpresaNotFoundException.class, UsuarioNotFoundException.class, SolicitacaoNotFoundException.class,
+                                SolicitacaoNovaSenhaNotFoundException.class})
     public ProblemDetail handleNotFound(RuntimeException ex) {
         log.error(ex.getMessage(), ex);
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());

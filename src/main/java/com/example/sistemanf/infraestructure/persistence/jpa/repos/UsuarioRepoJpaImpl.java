@@ -84,4 +84,12 @@ public class UsuarioRepoJpaImpl implements UsuarioDataSource {
         query.setParameter("id", usuarioDto.id());
         query.executeUpdate();
     }
+
+    @Override
+    @Transactional
+    public UsuarioDto atualizarUsuario(UsuarioDto usuarioDto) {
+        UsuarioJpa usuarioJpa = usuarioJpaDtoMapper.getJpa(usuarioDto);
+        usuarioJpa = entityManager.merge(usuarioJpa);
+        return usuarioJpaDtoMapper.getDto(usuarioJpa);
+    }
 }

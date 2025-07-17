@@ -12,4 +12,5 @@ public interface UsuarioDataSource {
     Long countByEmail(String email);
     UsuarioDto criarUsuario(UsuarioDto usuarioDto);
     void excluirUsuario(UsuarioDto usuarioDto);
+    UsuarioDto atualizarUsuario(UsuarioDto usuarioDto);
 }
