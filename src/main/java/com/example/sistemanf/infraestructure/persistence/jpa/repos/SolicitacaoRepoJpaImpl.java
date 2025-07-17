@@ -11,6 +11,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Repository
+@Profile("jpa")
 public class SolicitacaoRepoJpaImpl implements SolicitacaoDataSource {
 
     @PersistenceContext

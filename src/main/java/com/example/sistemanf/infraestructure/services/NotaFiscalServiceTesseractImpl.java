@@ -7,6 +7,7 @@ import jakarta.annotation.PostConstruct;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -18,6 +19,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Service
+@Profile("tesseract")
 public class NotaFiscalServiceTesseractImpl implements NotaFiscalDataSource {
 
     private static final String VALOR_NOTA_FISCAL_REGEX = "\\d{1,3}(?:\\.\\d{3})*(?:,\\d+)?";

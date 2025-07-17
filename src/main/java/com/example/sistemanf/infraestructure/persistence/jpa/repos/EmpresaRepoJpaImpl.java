@@ -7,11 +7,13 @@ import com.example.sistemanf.infraestructure.persistence.jpa.models.EmpresaJpa;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
+@Profile("jpa")
 public class EmpresaRepoJpaImpl implements EmpresaDataSource {
 
     @PersistenceContext

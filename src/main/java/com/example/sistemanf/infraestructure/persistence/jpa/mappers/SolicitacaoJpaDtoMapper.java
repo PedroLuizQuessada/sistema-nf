@@ -3,12 +3,14 @@ package com.example.sistemanf.infraestructure.persistence.jpa.mappers;
 import com.example.sistemanf.dtos.SolicitacaoDto;
 import com.example.sistemanf.infraestructure.persistence.jpa.models.SolicitacaoJpa;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 import java.util.Objects;
 
 @Component
+@Profile("jpa")
 public class SolicitacaoJpaDtoMapper {
 
     @Autowired
